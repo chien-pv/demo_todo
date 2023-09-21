@@ -2,11 +2,20 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 
-function FormSearch() {
+function FormSearch(props) {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [inputtext, setInputText] = useState("");
+
+  function handlerChange(e) {
+    setInputText(e.target.value);
+  }
+
+  function handlerSaveChange() {
+    props.addTodo(inputtext);
+    handleClose();
+  }
 
   return (
     <form className="row">
@@ -23,6 +32,8 @@ function FormSearch() {
           </Modal.Header>
           <Modal.Body>
             <input
+              onChange={handlerChange}
+              value={inputtext}
               type="text"
               className="form-control"
               placeholder="Todo name"
@@ -32,7 +43,7 @@ function FormSearch() {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={handlerSaveChange}>
               Save Changes
             </Button>
           </Modal.Footer>
